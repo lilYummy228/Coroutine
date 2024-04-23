@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class ScoreCounter : MonoBehaviour
+public class Counter : MonoBehaviour
 {
     private float _score = 0f;
     private float _delay = 0.5f;
     private float _scorePerTime = 1f;
     private WaitForSeconds _wait;
     private Coroutine _coroutine;
+    private KeyCode _key = KeyCode.Mouse0;
 
     public event Action<float> ScoreChanged;
 
@@ -19,13 +20,13 @@ public class ScoreCounter : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(_key))
         {
             if (_coroutine == null)
             {
-                _coroutine = StartCoroutine(nameof(IncreaseScore));
+                _coroutine = StartCoroutine(nameof(Increase));
             }
-            else if (_coroutine != null)
+            else
             {
                 StopCoroutine(_coroutine);
                 _coroutine = null;
@@ -33,7 +34,7 @@ public class ScoreCounter : MonoBehaviour
         }
     }
 
-    private IEnumerator IncreaseScore()
+    private IEnumerator Increase()
     {
         while (enabled)
         {
